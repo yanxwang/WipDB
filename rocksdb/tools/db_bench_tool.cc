@@ -11,6 +11,8 @@
 #define __STDC_FORMAT_MACROS
 #endif
 #include <random>
+#include <iostream>
+#include <fstream>  // Include this for file operations
 
 #ifdef NUMA
 #include <numa.h>
@@ -274,7 +276,7 @@ static bool ValidateUint32Range(const char* flagname, uint64_t value) {
   return true;
 }
 
-DEFINE_int32(key_size, 16, "size of each key");
+DEFINE_int32(key_size, 8, "size of each key");
 
 DEFINE_int32(num_multi_db, 0,
              "Number of DBs used in the benchmark. 0 means single DB.");
@@ -1134,6 +1136,7 @@ static const bool FLAGS_table_cache_numshardbits_dummy __attribute__((__unused__
 static kv::YCSBLoadType FLAGS_ycsb_type = kv::kYCSB_A;
 DEFINE_int64(ycsb_ops_num, 1000000, "YCSB operations num");
 static std::vector<uint64_t> ycsb_insertion_sequence;
+static std::vector<uint64_t> real_insertion_sequence;
 namespace rocksdb {
 
 namespace {
@@ -4059,43 +4062,105 @@ void VerifyDBFromDB(std::string& truth_db_name) {
   }
 
   void R50W50(ThreadState* thread) {
+ 
     RandomGenerator gen;
     WriteBatch batch;
     Status s;
-    Duration duration(0, FLAGS_ycsb_ops_num);
+ 
     uint64_t found = 0;
     ReadOptions roption;
     WriteOptions woption;
     DBWithColumnFamilies* db_with_cfh = SelectDBWithCfh(thread);
+    const Comparator* comparator = db_with_cfh->db->DefaultColumnFamily()->GetComparator();
     uint64_t i = 0;
+    uint64_t iterval = 0;
+ 
+    kv::Trace* ycsb_selector = nullptr;
+    // FLAGS_ycsb_type = kYCSB_B;
+ 
+    std::cout << "Compaction Priority : " << FLAGS_compaction_pri_e << " Uniform Dist " << FLAGS_ycsb_ops_num << " ** "<< FLAGS_num << std::endl;
+ 
+    ycsb_selector = new TraceUniform(kYCSB_SEED + FLAGS_ycsb_type * 333 + thread->tid * 996);
+ 
+    uint64_t the_key = 0;
+ 
+    real_insertion_sequence.clear();
+ 
+    std::ifstream file("/tmp/fileForInput");
+ 
+    if (file.is_open()) {
+        std::string line;
+        while(std::getline(file, line)) {
+                uint64_t k = std::stoull(line.c_str(), NULL, 0);
+                real_insertion_sequence.push_back(k);
+        }
+    }
+ 
+    file.close();
+ 
+    Duration duration(0, FLAGS_ycsb_ops_num);
+ 
     while (!duration.Done(1)) {
       // half read
       std::unique_ptr<const char[]> key_guard;
       Slice key = AllocateKey(&key_guard);
-      int64_t key_rand = GetRandomKey(&thread->rand);
-      
-      if (i % 2 == 0) {
-        // printf("W key: %llu\n", key_rand);
-        GenerateKeyFromInt(key_rand, FLAGS_num, &key);
+      //uint64_t key_rand = ycsb_selector->Next() % FLAGS_num;
+      //if(isUnique[key_rand]) {
+        GenerateKeyFromInt(real_insertion_sequence[i], FLAGS_ycsb_ops_num, &key);
+        //isUnique[key_rand] = false;
+        //alluniq++;
         db_with_cfh->db->Put(woption, key, gen.Generate(value_size_));
-      }
-      else {
-        std::string value;
-        const uint64_t k = key_rand % (uint64_t)(FLAGS_range  * 0.3 );
-        GenerateKeyFromInt(k, FLAGS_num, &key);
-        // printf("key : %llu\n", k);
-        if (db_with_cfh->db->Get(roption, key, &value).ok()) {
-          found++;
-        }
-      }
-      thread->stats.FinishedOps(db_with_cfh, db_with_cfh->db, 1, kWrite);
+        thread->stats.FinishedOps(db_with_cfh, db_with_cfh->db, 1, kWrite);
+ 
       ++i;
+ 
     }
     char msg[100];
+    //std::cout << "Total Uniq Inserts : " << alluniq << std::endl;
     snprintf(msg, sizeof(msg), "(%" PRIu64 " of %" PRIu64 " found)", found, FLAGS_ycsb_ops_num);
     printf("thread %d : (%" PRIu64 " of %" PRIu64 " found)\n", thread->tid, found, FLAGS_ycsb_ops_num);
     thread->stats.AddMessage(msg);
   }
+
+  // origin
+  // void R50W50(ThreadState* thread) {
+  //   RandomGenerator gen;
+  //   WriteBatch batch;
+  //   Status s;
+  //   Duration duration(0, FLAGS_ycsb_ops_num);
+  //   uint64_t found = 0;
+  //   ReadOptions roption;
+  //   WriteOptions woption;
+  //   DBWithColumnFamilies* db_with_cfh = SelectDBWithCfh(thread);
+  //   uint64_t i = 0;
+  //   while (!duration.Done(1)) {
+  //     // half read
+  //     std::unique_ptr<const char[]> key_guard;
+  //     Slice key = AllocateKey(&key_guard);
+  //     int64_t key_rand = GetRandomKey(&thread->rand);
+      
+  //     if (i % 2 == 0) {
+  //       // printf("W key: %llu\n", key_rand);
+  //       GenerateKeyFromInt(key_rand, FLAGS_num, &key);
+  //       db_with_cfh->db->Put(woption, key, gen.Generate(value_size_));
+  //     }
+  //     else {
+  //       std::string value;
+  //       const uint64_t k = key_rand % (uint64_t)(FLAGS_range  * 0.3 );
+  //       GenerateKeyFromInt(k, FLAGS_num, &key);
+  //       // printf("key : %llu\n", k);
+  //       if (db_with_cfh->db->Get(roption, key, &value).ok()) {
+  //         found++;
+  //       }
+  //     }
+  //     thread->stats.FinishedOps(db_with_cfh, db_with_cfh->db, 1, kWrite);
+  //     ++i;
+  //   }
+  //   char msg[100];
+  //   snprintf(msg, sizeof(msg), "(%" PRIu64 " of %" PRIu64 " found)", found, FLAGS_ycsb_ops_num);
+  //   printf("thread %d : (%" PRIu64 " of %" PRIu64 " found)\n", thread->tid, found, FLAGS_ycsb_ops_num);
+  //   thread->stats.AddMessage(msg);
+  // }
 
 
   void R25W75(ThreadState* thread) {

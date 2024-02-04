@@ -61,9 +61,6 @@ random_double(void)
   return rd;
 }
 
-
-
-
 void RandomSequence(uint64_t num, std::vector<uint64_t>& sequence){
     sequence.resize(num);
     for (uint64_t i = 0; i < num; ++i) {
@@ -238,7 +235,7 @@ uint64_t TraceNormal::Next() {
 
     return  val;
 }
-
+/*
 // using given distribution trace to generate ycsb workload
 // range:   key range
 // max_num: number of operations
@@ -247,14 +244,14 @@ std::vector<YCSB_Op> YCSB_LoadGenerate(int64_t range, uint64_t max_num, YCSBLoad
     switch (type) {
         case kYCSB_A: {
             // 50% reads
-            for (uint64_t i = 0; i < max_num / 2; ++i) {
-                YCSB_Op ops;
-                ops.key = trace->Next() % range;
-                ops.type = kYCSB_Read;
-                res.push_back(ops);
-            }
+            //for (uint64_t i = 0; i < max_num / 2; ++i) {
+            //    YCSB_Op ops;
+            //    ops.key = trace->Next() % range;
+            //    ops.type = kYCSB_Read;
+            //    res.push_back(ops);
+            //}
             // 50% updates(writes)
-            for (uint64_t i = 0; i < max_num / 2; ++i) {
+            for (uint64_t i = 0; i < max_num ; ++i) {
                 YCSB_Op ops;
                 ops.key = trace->Next() % range;
                 ops.type = kYCSB_Write;
@@ -263,8 +260,43 @@ std::vector<YCSB_Op> YCSB_LoadGenerate(int64_t range, uint64_t max_num, YCSBLoad
             std::random_shuffle(res.begin(), res.end(), ShuffleA);
             break;
         }
+*/
+
+
+// using given distribution trace to generate ycsb workload
+// range:   key range
+// max_num: number of operations
+std::vector<YCSB_Op> YCSB_LoadGenerate(int64_t range, uint64_t max_num, YCSBLoadType type, Trace* trace, const std::vector<uint64_t>& ycsb_insertion_sequence) {
+    std::vector<YCSB_Op> res;
+    switch (type) {
+        case kYCSB_A: {
+            std::vector<uint64_t> real_insertion_sequence;
+            std::vector<bool> isUnique((max_num*2), true);
+            uint64_t key = 0;    
+            //max_num*2 because if we want to insert exactly max_num uniq elements. So we consider larger key range
+            for (uint64_t i = 0; i < (max_num*2) ; ++i) {
+                key = trace->Next() % (max_num*2);
+                if(isUnique[key]) {
+                    real_insertion_sequence.push_back(key);
+                    isUnique[key] = false;
+                }
+            }
+
+            for (uint64_t i = 0; i < max_num ; ++i) {
+                YCSB_Op ops;
+                //ops.key = trace->Next() % range;
+                ops.key = real_insertion_sequence[i];
+                //std::cout << " Key : " << ops.key << std::endl;
+                //printf(" Key : %llu \n", ops.key);
+                ops.type = kYCSB_Write;
+                res.push_back(ops);
+            }
+            std::random_shuffle(res.begin(), res.end(), ShuffleA);
+            break;
+        }
         
-        case kYCSB_B: {
+        // origin
+        /*case kYCSB_B: {
             // B: 95% reads, 5% writes
             uint64_t R95 = max_num * 0.95;
             uint64_t W5  = max_num - R95;
@@ -282,8 +314,34 @@ std::vector<YCSB_Op> YCSB_LoadGenerate(int64_t range, uint64_t max_num, YCSBLoad
             }
             std::random_shuffle(res.begin(), res.end(), ShuffleB);
             break;
-        }
+        }*/
         
+        case kYCSB_B: {
+            // B: Workload with highly frequent updates and deletes
+            uint64_t U50 = max_num * 0.9;  // 90% updates
+            uint64_t D50 = max_num * 0.1;  // 10% deletes
+
+            // Generate updates
+            for (uint64_t i = 0; i < U50; ++i) {
+                YCSB_Op updateOp;
+                updateOp.key = trace->Next() % range;
+                updateOp.type = kYCSB_Write;  // Custom type for updates
+                res.push_back(updateOp);
+            }
+
+            // Generate deletes
+            for (uint64_t i = 0; i < D50; ++i) {
+                YCSB_Op deleteOp;
+                deleteOp.key = trace->Next() % range;
+                deleteOp.type = kYCSB_Write;  // Custom type for deletes
+                res.push_back(deleteOp);
+            }
+
+            // Random shuffle for a more realistic distribution
+            std::random_shuffle(res.begin(), res.end(), ShuffleB);
+            break;
+        }
+
 
         case kYCSB_C: {
             // 100% reads

@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/CMakeFiles/googletest"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/CMakeFiles/googletest.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/CMakeFiles/googletest-complete.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-build.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-configure.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-download.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-install.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-mkdir.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-patch.rule"
+		},
+		{
+			"file" : "/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest"
+		],
+		"name" : "googletest"
+	}
+}

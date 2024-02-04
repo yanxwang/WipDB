@@ -1,0 +1,13 @@
+# Target labels
+ googletest
+# Source files and their labels
+/home/yanwang/WipDB/kv/release/tests/CMakeFiles/googletest
+/home/yanwang/WipDB/kv/release/tests/CMakeFiles/googletest.rule
+/home/yanwang/WipDB/kv/release/tests/CMakeFiles/googletest-complete.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-build.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-configure.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-download.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-install.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-mkdir.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-patch.rule
+/home/yanwang/WipDB/kv/release/tests/googletest/src/googletest-stamp/googletest-update.rule

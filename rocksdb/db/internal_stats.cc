@@ -123,17 +123,18 @@ void PrintLevelStats(char* buf, size_t len, const std::string& name,
       "%6d/%-3d " /*  Files */
       "%8s "      /*  Size */
       "%5.1f "    /*  Score */
-      "%8.1f "    /*  Read(GB) */
-      "%7.1f "    /*  Rn(GB) */
-      "%8.1f "    /*  Rnp1(GB) */
-      "%9.1f "    /*  Write(GB) */
-      "%8.1f "    /*  Wnew(GB) */
-      "%9.1f "    /*  Moved(GB) */
-      "%5.1f "    /*  W-Amp */
+      "%8.6f "    /*  Read(GB) */
+      "%7.6f "    /*  Rn(GB) */
+      "%8.6f "    /*  Rnp1(GB) */
+      "%9.6f "    /*  Write(GB) */
+      "%8.6f "    /*  Wnew(GB) */
+      "%9.6f "    /*  Moved(GB) */
+      "%5.6f "    /*  W-Amp */
       "%8.1f "    /*  Rd(MB/s) */
       "%8.1f "    /*  Wr(MB/s) */
       "%9.0f "    /*  Comp(sec) */
       "%9d "      /*  Comp(cnt) */
+      
       "%8.3f "    /*  Avg(sec) */
       "%7s "      /*  KeyIn */
       "%6s\n",    /*  KeyDrop */
@@ -154,6 +155,7 @@ void PrintLevelStats(char* buf, size_t len, const std::string& name,
       stat_value.at(LevelStatType::WRITE_MBPS),
       stat_value.at(LevelStatType::COMP_SEC),
       static_cast<int>(stat_value.at(LevelStatType::COMP_COUNT)),
+
       stat_value.at(LevelStatType::AVG_SEC),
       NumberToHumanString(
           static_cast<std::int64_t>(stat_value.at(LevelStatType::KEY_IN)))
