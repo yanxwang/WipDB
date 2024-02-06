@@ -1,8 +1,8 @@
 echo fb0-=0-= | sudo -S bash -c 'echo 800000 > /proc/sys/fs/file-max'
 ulimit -n 800000
 
-OPS=10000000
-NUM=10000000
+OPS=500000000
+NUM=500000000
 BLOOM_BITS=16
 CACHE=8388608
 VALUE=100
@@ -34,8 +34,8 @@ rm -rf /tmp/wal
 # ipid=$!
 # echo "Forked $ipid"
 
-./../rocksdb/release/db_bench     --cache_size=$CACHE --wal_dir=/tmp/wal --db=/tmp/db --threads=1 --open_files=40000  --num=$NUM --range=$NUM  --reads=2000000                                              --batch_size=1000  --stats_interval=100000000  --bloom_bits=$BLOOM_BITS --max_background_jobs=7    --value_size=$VALUE                    --histogram=true  --disable_wal=false              --benchmarks=r50,stats,levelstats,sstables --writes=10  --ycsb_ops_num=$OPS  --seek_nexts=100  --use_existing_db=false  --stats_per_interval=100000000  --compaction_pri=3 | tee rocks1B_ycsb_load.log
-# gdb --args ./../rocksdb/debug/db_bench     --cache_size=$CACHE --wal_dir=/tmp/wal --db=/tmp/db --threads=1 --open_files=40000  --num=$NUM --range=$NUM  --reads=2000000                                              --batch_size=1000  --stats_interval=100000000  --bloom_bits=$BLOOM_BITS --max_background_jobs=1    --value_size=$VALUE                    --histogram=true  --disable_wal=false              --benchmarks=r50,stats,levelstats,sstables --writes=10  --ycsb_ops_num=$OPS  --seek_nexts=100  --use_existing_db=false  --stats_per_interval=100000000  --compaction_pri=3 | tee rocks1B_ycsb_load.log
+./../rocksdb/release/db_bench     --cache_size=$CACHE --wal_dir=/tmp/wal --db=/tmp/db --threads=1 --open_files=40000  --num=$NUM --range=$NUM  --reads=2000000                                              --batch_size=1000  --stats_interval=100000000  --bloom_bits=$BLOOM_BITS --max_background_jobs=7    --value_size=$VALUE                    --histogram=true  --disable_wal=false              --benchmarks=ycsba,stats,levelstats,sstables --writes=10  --ycsb_ops_num=$OPS  --seek_nexts=100  --use_existing_db=false  --stats_per_interval=100000000  --compaction_pri=3 --write_buffer_size=33554432 | tee rocks1B_ycsb_load.log
+# gdb --args ./../rocksdb/debug/db_bench     --cache_size=$CACHE --wal_dir=/tmp/wal --db=/tmp/db --threads=1 --open_files=40000  --num=$NUM --range=$NUM  --reads=2000000                                              --batch_size=1000  --stats_interval=100000000  --bloom_bits=$BLOOM_BITS --max_background_jobs=1    --value_size=$VALUE                    --histogram=true  --disable_wal=false              --benchmarks=ycsba,stats,levelstats,sstables --writes=10  --ycsb_ops_num=$OPS  --seek_nexts=100  --use_existing_db=false  --stats_per_interval=100000000  --compaction_pri=3 | tee rocks1B_ycsb_load.log
 
 # sleep 5
 # kill $ipid

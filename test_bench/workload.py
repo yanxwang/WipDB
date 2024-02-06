@@ -1,6 +1,6 @@
 import random
 
-total_insertions = 10000000
+total_insertions = 20000000
 
 def generate_keys(total_insertions):
     key_space = 1000000000

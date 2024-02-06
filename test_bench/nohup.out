@@ -1,3 +1,7 @@
+RocksDB:    version 5.18
+Date:       Tue Feb  6 15:54:28 2024
+CPU:        24 * Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz
+CPUCache:   15360 KB
 Initializing RocksDB Options from the specified file
 Initializing RocksDB Options from command-line flags
 Keys:       8 bytes each
