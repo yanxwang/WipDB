@@ -2,11 +2,11 @@ Initializing RocksDB Options from the specified file
 Initializing RocksDB Options from command-line flags
 Keys:       8 bytes each
 Values:     100 bytes each (50 bytes after compression)
-Entries:    1000000000
+Entries:    10000000
 Prefix:    0 bytes
 Keys per prefix:    0
-RawSize:    102996.8 MB (estimated)
-FileSize:   55313.1 MB (estimated)
+RawSize:    1030.0 MB (estimated)
+FileSize:   553.1 MB (estimated)
 Write rate: 0 bytes/second
 Read rate: 0 ops/second
 Compression: NoCompression
@@ -14,4 +14,100 @@ Memtablerep: skip_list
 Perf Level: 1
 ------------------------------------------------
 DB path: [/tmp/db]
-Compaction Priority :  Uniform Dist 1000000000 ** 1000000000
+Compaction Priority :  Uniform Dist 10000000 ** 10000000
+thread 0 : (0 of 10000000 found)
+r50          :       4.320 micros/op 231494 ops/sec; (0 of 10000000 found)
+Microseconds per write:
+Count: 10000000 Average: 4.3207  StdDev: 421.68
+Min: 2  Median: 3.5674  Max: 1332514
+Percentiles: P50: 3.57 P75: 4.40 P99: 8.98 P99.9: 13.16 P99.99: 22.19
+------------------------------------------------------
+(       1,       2 ]   364923   3.649%   3.649% #
+(       2,       3 ]  2061345  20.613%  24.263% ####
+(       3,       4 ]  4536343  45.363%  69.626% #########
+(       4,       6 ]  2697705  26.977%  96.603% #####
+(       6,      10 ]   321673   3.217%  99.820% #
+(      10,      15 ]    12686   0.127%  99.947% 
+(      15,      22 ]     4316   0.043%  99.990% 
+(      22,      34 ]      564   0.006%  99.996% 
+(      34,      51 ]      195   0.002%  99.998% 
+(      51,      76 ]       67   0.001%  99.998% 
+(      76,     110 ]       36   0.000%  99.999% 
+(     110,     170 ]       21   0.000%  99.999% 
+(     170,     250 ]       24   0.000%  99.999% 
+(     250,     380 ]        5   0.000%  99.999% 
+(     380,     580 ]       87   0.001% 100.000% 
+(     580,     870 ]        2   0.000% 100.000% 
+(     870,    1300 ]        2   0.000% 100.000% 
+(    1300,    1900 ]        4   0.000% 100.000% 
+(   33000,   50000 ]        1   0.000% 100.000% 
+( 1200000, 1900000 ]        1   0.000% 100.000% 
+
+
+
+** Compaction Stats [default] **
+Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+  L0      3/0   164.12 MB   0.8 0.000000 0.000000 0.000000  1.015454 1.015454  0.000000 1.000000      0.0     67.9        15        19    0.806       0      0
+  L1      5/1   327.91 MB   1.0 1.492549 0.855184 0.637365  1.488644 0.851279  0.000000 1.740728     72.5     72.3        21         4    5.273     13M    16K
+  L2      9/1   543.35 MB   0.2 0.128089 0.064043 0.064046  0.127646 0.063600  0.467015 1.993120     81.9     81.7         2         1    1.601   1179K   1969
+ Sum     17/2    1.01 GB   0.0 1.620638 0.919228 0.701411  2.631743 1.930333  0.467015 2.591693     43.7     70.9        38        24    1.584     14M    18K
+ Int      0/0    0.00 KB   0.0 1.620638 0.919228 0.701411  2.631743 1.930333  0.467015 2.591693     43.7     70.9        38        24    1.584     14M    18K
+Uptime(secs): 43.3 total, 43.2 interval
+Flush(GB): cumulative 1.015, interval 1.015
+AddFile(GB): cumulative 0.000, interval 0.000
+AddFile(Total Files): cumulative 0, interval 0
+AddFile(L0 Files): cumulative 0, interval 0
+AddFile(Keys): cumulative 0, interval 0
+Cumulative compaction: 2.63 GB write, 62.28 MB/s write, 1.62 GB read, 38.35 MB/s read, 38.0 seconds
+Interval compaction: 2.63 GB write, 62.35 MB/s write, 1.62 GB read, 38.39 MB/s read, 38.0 seconds
+Stalls(count): 0 level0_slowdown, 0 level0_slowdown_with_compaction, 0 level0_numfiles, 0 level0_numfiles_with_compaction, 0 stop for pending_compaction_bytes, 0 slowdown for pending_compaction_bytes, 0 memtable_compaction, 0 memtable_slowdown, interval 0 total count
+
+** File Read Latency Histogram By Level [default] **
+
+** DB Stats **
+Uptime(secs): 43.3 total, 43.2 interval
+Cumulative writes: 10M writes, 10M keys, 10M commit groups, 1.0 writes per commit group, ingest: 1.15 GB, 27.11 MB/s
+Cumulative WAL: 10M writes, 0 syncs, 10000000.00 writes per sync, written: 1.15 GB, 27.11 MB/s
+Cumulative stall: 00:00:0.000 H:M:S, 0.0 percent
+Interval writes: 10M writes, 10M keys, 10M commit groups, 1.0 writes per commit group, ingest: 1173.02 MB, 27.14 MB/s
+Interval WAL: 10M writes, 0 syncs, 10000000.00 writes per sync, written: 1.15 MB, 27.14 MB/s
+Interval stall: 00:00:0.000 H:M:S, 0.0 percent
+
+
+Level Files Size(MB)
+--------------------
+  0        3      164
+  1        5      328
+  2        9      543
+  3        0        0
+  4        0        0
+  5        0        0
+  6        0        0
+
+
+--- level 0 --- version# 33 ---
+ 69:57342273['0000000000002356' seq:9251229, type:1 .. '000000003B9AC725' seq:9039061, type:1](0)
+ 64:57385488['0000000000000CA0' seq:8593083, type:1 .. '000000003B9ABF5E' seq:8812224, type:1](0)
+ 60:57359822['0000000000000A18' seq:8217217, type:1 .. '000000003B9AC805' seq:8339828, type:1](0)
+--- level 1 --- version# 33 ---
+ 58:68769029['0000000009F9B4BC' seq:4603799, type:1 .. '0000000013F4D744' seq:6815603, type:1](0)
+ 61:68769800['0000000013F4D77F' seq:4258241, type:1 .. '000000001A445B13' seq:0, type:1](0)
+ 62:68766847['000000001A445C1A' seq:0, type:1 .. '0000000024FCE11A' seq:6333876, type:1](0)
+ 65:68766136['0000000024FCE542' seq:6939930, type:1 .. '000000003536B754' seq:7119331, type:1](0)
+ 66:68762595['000000003536BA10' seq:6924169, type:1 .. '000000003A1660A7' seq:0, type:1](0)
+--- level 2 --- version# 33 ---
+ 70:68763713['0000000000000162' seq:0, type:1 .. '000000000530C26D' seq:0, type:1](0)
+ 71:68295285['000000000530C2B9' seq:0, type:1 .. '000000000ABB96E5' seq:0, type:1](0)
+ 28:68772014['000000000ABB98B5' seq:0, type:1 .. '0000000011918620' seq:0, type:1](0)
+ 31:68769941['0000000011918624' seq:0, type:1 .. '0000000018CF1634' seq:0, type:1](0)
+ 46:68766626['000000001B07CA48' seq:0, type:1 .. '000000002139A0AF' seq:5639191, type:1](0)
+ 47:68765408['000000002139A0B0' seq:5639192, type:1 .. '0000000027C93000' seq:0, type:1](0)
+ 48:68767541['0000000027C93042' seq:0, type:1 .. '000000002E5C5272' seq:0, type:1](0)
+ 51:68767940['000000002E5C5373' seq:0, type:1 .. '000000003563A7C8' seq:0, type:1](0)
+ 67:20075211['000000003A1660C9' seq:6099605, type:1 .. '000000003B9AC6FC' seq:1487661, type:1](0)
+--- level 3 --- version# 33 ---
+--- level 4 --- version# 33 ---
+--- level 5 --- version# 33 ---
+--- level 6 --- version# 33 ---
+

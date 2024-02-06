@@ -1,8 +1,8 @@
 echo fb0-=0-= | sudo -S bash -c 'echo 800000 > /proc/sys/fs/file-max'
 ulimit -n 800000
 
-OPS=1000000000
-NUM=1000000000
+OPS=10000000
+NUM=10000000
 BLOOM_BITS=16
 CACHE=8388608
 VALUE=100
