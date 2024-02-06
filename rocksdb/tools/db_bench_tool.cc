@@ -4078,7 +4078,7 @@ void VerifyDBFromDB(std::string& truth_db_name) {
     kv::Trace* ycsb_selector = nullptr;
     // FLAGS_ycsb_type = kYCSB_B;
  
-    std::cout << "Compaction Priority : " << FLAGS_compaction_pri_e << " Uniform Dist " << FLAGS_ycsb_ops_num << " ** "<< FLAGS_num << std::endl;
+    std::cout << "Compaction Priority : " << FLAGS_compaction_pri << " Uniform Dist " << FLAGS_ycsb_ops_num << " ** "<< FLAGS_num << std::endl;
  
     ycsb_selector = new TraceUniform(kYCSB_SEED + FLAGS_ycsb_type * 333 + thread->tid * 996);
  
