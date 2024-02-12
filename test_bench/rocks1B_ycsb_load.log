@@ -2,11 +2,11 @@ Initializing RocksDB Options from the specified file
 Initializing RocksDB Options from command-line flags
 Keys:       8 bytes each
 Values:     100 bytes each (50 bytes after compression)
-Entries:    500000000
+Entries:    10000000
 Prefix:    0 bytes
 Keys per prefix:    0
-RawSize:    51498.4 MB (estimated)
-FileSize:   27656.6 MB (estimated)
+RawSize:    1030.0 MB (estimated)
+FileSize:   553.1 MB (estimated)
 Write rate: 0 bytes/second
 Read rate: 0 ops/second
 Compression: NoCompression
@@ -14,67 +14,109 @@ Memtablerep: skip_list
 Perf Level: 1
 ------------------------------------------------
 DB path: [/tmp/db]
-2024/02/06-16:08:44  ... thread 0: (100000000,100000000) ops and (164474.2,164474.2) ops/second in (607.998203,607.998203) seconds
+ycsba        :       4.554 micros/op 219570 ops/sec;   24.3 MB/s (0 of 10000000 found)
+Microseconds per write:
+Count: 10000000 Average: 4.8131  StdDev: 361.09
+Min: 3  Median: 3.7172  Max: 2599435
+Percentiles: P50: 3.72 P75: 4.54 P99: 9.12 P99.9: 14.32 P99.99: 28.05
+------------------------------------------------------
+(       2,       3 ]   680758   6.808%   6.808% #
+(       3,       4 ]  6022621  60.226%  67.034% ############
+(       4,       6 ]  2925842  29.258%  96.292% ######
+(       6,      10 ]   347332   3.473%  99.766% #
+(      10,      15 ]    15573   0.156%  99.921% 
+(      15,      22 ]     6531   0.065%  99.987% 
+(      22,      34 ]      680   0.007%  99.993% 
+(      34,      51 ]      234   0.002%  99.996% 
+(      51,      76 ]      118   0.001%  99.997% 
+(      76,     110 ]       84   0.001%  99.998% 
+(     110,     170 ]       40   0.000%  99.998% 
+(     170,     250 ]       34   0.000%  99.998% 
+(     250,     380 ]       10   0.000%  99.999% 
+(     380,     580 ]       19   0.000%  99.999% 
+(     580,     870 ]       79   0.001% 100.000% 
+(     870,    1300 ]        3   0.000% 100.000% 
+(    1300,    1900 ]        3   0.000% 100.000% 
+(    1900,    2900 ]        4   0.000% 100.000% 
+(    4400,    6600 ]        1   0.000% 100.000% 
+(    6600,    9900 ]        3   0.000% 100.000% 
+(    9900,   14000 ]        9   0.000% 100.000% 
+(   14000,   22000 ]        3   0.000% 100.000% 
+(   22000,   33000 ]        4   0.000% 100.000% 
+(   33000,   50000 ]        2   0.000% 100.000% 
+(   50000,   75000 ]       10   0.000% 100.000% 
+(  110000,  170000 ]        2   0.000% 100.000% 
+( 1900000, 2900000 ]        1   0.000% 100.000% 
+
+
 
 ** Compaction Stats [default] **
 Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
-  L0     16/16   1.79 GB   0.0 11.854950 0.000000 11.854950 22.707082 10.852132  0.000000 2.089455     16.7     31.9       729       488    1.493    108M      0
-  L1     10/10  655.81 MB   0.0 14.559325 9.034972 5.524353 14.519848 8.995494  0.000000 1.607072     57.9     57.8       257        18   14.297    134M      0
-  L2     40/0    2.47 GB   1.0 23.034444 7.311882 15.722563 23.019427 7.296864  1.043177 3.148222     21.9     21.9      1077       117    9.205    210M      0
-  L3     93/0    5.87 GB   0.2 4.160243 1.855415 2.304829  4.159119 1.854291  4.011553 2.241612     21.3     21.3       200        27    7.396     38M      0
- Sum    159/26  10.77 GB   0.0 53.608963 18.202268 35.406695 64.405475 28.998781  5.054730 5.926448     24.3     29.1      2263       650    3.481    491M      0
- Int      0/0    0.00 KB   0.0 24.172219 8.379610 15.792610 28.371902 12.579292  1.648379 6.708646     22.8     26.7      1087       274    3.967    220M      0
-Uptime(secs): 856.2 total, 256.1 interval
-Flush(GB): cumulative 10.867, interval 4.229
+  L0     10/10  354.01 MB   0.0 0.319288 0.000000 0.319288  1.356421 1.037132  0.000000 1.307158     12.3     52.1        27        42    0.634   2949K      0
+  L1      3/3   196.76 MB   0.0 1.448804 0.691415 0.757390  1.447661 0.690271  0.000000 2.093766     67.7     67.6        22         5    4.386     13M      0
+  L2      8/0   510.06 MB   0.2 0.256202 0.128103 0.128099  0.256187 0.128088  0.370016 1.999847     78.9     78.9         3         2    1.663   2371K      0
+ Sum     21/13   1.04 GB   0.0 2.024295 0.819518 1.204777  3.060269 1.855492  0.370016 2.949126     39.9     60.4        52        49    1.059     18M      0
+ Int      0/0    0.00 KB   0.0 2.024295 0.819518 1.204777  3.060269 1.855492  0.370016 2.949126     39.9     60.4        52        49    1.059     18M      0
+Uptime(secs): 48.2 total, 48.2 interval
+Flush(GB): cumulative 1.038, interval 1.038
 AddFile(GB): cumulative 0.000, interval 0.000
 AddFile(Total Files): cumulative 0, interval 0
 AddFile(L0 Files): cumulative 0, interval 0
 AddFile(Keys): cumulative 0, interval 0
-Cumulative compaction: 64.41 GB write, 77.03 MB/s write, 53.61 GB read, 64.12 MB/s read, 2262.8 seconds
-Interval compaction: 28.37 GB write, 113.43 MB/s write, 24.17 GB read, 96.64 MB/s read, 1087.0 seconds
-Stalls(count): 0 level0_slowdown, 0 level0_slowdown_with_compaction, 0 level0_numfiles, 0 level0_numfiles_with_compaction, 0 stop for pending_compaction_bytes, 0 slowdown for pending_compaction_bytes, 199 memtable_compaction, 0 memtable_slowdown, interval 99 total count
+Cumulative compaction: 3.06 GB write, 64.99 MB/s write, 2.02 GB read, 42.99 MB/s read, 51.9 seconds
+Interval compaction: 3.06 GB write, 65.05 MB/s write, 2.02 GB read, 43.03 MB/s read, 51.9 seconds
+Stalls(count): 0 level0_slowdown, 0 level0_slowdown_with_compaction, 0 level0_numfiles, 0 level0_numfiles_with_compaction, 0 stop for pending_compaction_bytes, 0 slowdown for pending_compaction_bytes, 1 memtable_compaction, 0 memtable_slowdown, interval 1 total count
 
 ** File Read Latency Histogram By Level [default] **
 
 ** DB Stats **
-Uptime(secs): 856.2 total, 256.1 interval
-Cumulative writes: 100M writes, 100M keys, 100M commit groups, 1.0 writes per commit group, ingest: 11.46 GB, 13.70 MB/s
-Cumulative WAL: 100M writes, 0 syncs, 100000000.00 writes per sync, written: 11.46 GB, 13.70 MB/s
-Cumulative stall: 00:01:24.482 H:M:S, 9.9 percent
-Interval writes: 38M writes, 38M keys, 38M commit groups, 1.0 writes per commit group, ingest: 4551.69 MB, 17.77 MB/s
-Interval WAL: 38M writes, 0 syncs, 38803220.00 writes per sync, written: 4.45 MB, 17.77 MB/s
-Interval stall: 00:00:44.159 H:M:S, 17.2 percent
+Uptime(secs): 48.2 total, 48.2 interval
+Cumulative writes: 10M writes, 10M keys, 10M commit groups, 1.0 writes per commit group, ingest: 1.15 GB, 24.33 MB/s
+Cumulative WAL: 10M writes, 0 syncs, 10000000.00 writes per sync, written: 1.15 GB, 24.33 MB/s
+Cumulative stall: 00:00:0.127 H:M:S, 0.3 percent
+Interval writes: 10M writes, 10M keys, 10M commit groups, 1.0 writes per commit group, ingest: 1173.02 MB, 24.35 MB/s
+Interval WAL: 10M writes, 0 syncs, 10000000.00 writes per sync, written: 1.15 MB, 24.35 MB/s
+Interval stall: 00:00:0.127 H:M:S, 0.3 percent
 
-2024/02/06-16:22:20  ... thread 0: (100000000,200000000) ops and (122664.7,140525.6) ops/second in (815.230249,1423.228452) seconds
 
-** Compaction Stats [default] **
-Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-  L0     17/15   1.66 GB   0.6 26.438471 0.000000 26.438471 48.162816 21.724345  0.000000 2.213198     15.2     27.7      1779       984    1.808    242M      0
-  L1     19/19   1.16 GB   0.0 32.737357 20.040710 12.696647 32.642218 19.945571  0.000000 1.628795     42.1     42.0       796        26   30.624    272M      0
-  L2     51/4    3.08 GB   1.1 44.156714 16.283107 27.873607 44.134065 16.260458  2.498684 2.710420     20.9     20.9      2167       253    8.563    370M      0
-  L3    248/12  15.67 GB   0.6 35.704380 11.666067 24.038313 35.697875 11.659563  4.011553 3.059975     20.2     20.2      1808       181    9.989    330M      0
- Sum    335/50  21.57 GB   0.0 139.036922 47.989884 91.047037 160.636975 69.589938  6.510237 7.381658     21.7     25.1      6550      1444    4.536   1216M      0
- Int      0/0    0.00 KB   0.0 49.141350 16.541480 32.599870 55.194533 22.594663  1.087317 9.044083     20.2     22.6      2497       442    5.650    414M      0
-Uptime(secs): 1671.4 total, 471.4 interval
-Flush(GB): cumulative 21.762, interval 6.103
-AddFile(GB): cumulative 0.000, interval 0.000
-AddFile(Total Files): cumulative 0, interval 0
-AddFile(L0 Files): cumulative 0, interval 0
-AddFile(Keys): cumulative 0, interval 0
-Cumulative compaction: 160.64 GB write, 98.42 MB/s write, 139.04 GB read, 85.18 MB/s read, 6549.7 seconds
-Interval compaction: 55.19 GB write, 119.90 MB/s write, 49.14 GB read, 106.75 MB/s read, 2497.2 seconds
-Stalls(count): 48 level0_slowdown, 48 level0_slowdown_with_compaction, 0 level0_numfiles, 0 level0_numfiles_with_compaction, 0 stop for pending_compaction_bytes, 0 slowdown for pending_compaction_bytes, 505 memtable_compaction, 0 memtable_slowdown, interval 214 total count
+Level Files Size(MB)
+--------------------
+  0       10      354
+  1        3      197
+  2        8      510
+  3        0        0
+  4        0        0
+  5        0        0
+  6        0        0
 
-** File Read Latency Histogram By Level [default] **
 
-** DB Stats **
-Uptime(secs): 1671.4 total, 471.4 interval
-Cumulative writes: 200M writes, 200M keys, 200M commit groups, 1.0 writes per commit group, ingest: 22.91 GB, 14.04 MB/s
-Cumulative WAL: 200M writes, 0 syncs, 200000000.00 writes per sync, written: 22.91 GB, 14.04 MB/s
-Cumulative stall: 00:04:30.433 H:M:S, 16.2 percent
-Interval writes: 55M writes, 55M keys, 55M commit groups, 1.0 writes per commit group, ingest: 6564.44 MB, 13.93 MB/s
-Interval WAL: 55M writes, 0 syncs, 55961909.00 writes per sync, written: 6.41 MB, 13.93 MB/s
-Interval stall: 00:01:45.947 H:M:S, 22.5 percent
+--- level 0 --- version# 56 ---
+ 119:28568578['000000000000001B' seq:9552428, type:1 .. '0000000001312CB9' seq:9500044, type:1](0)
+ 116:28569671['0000000000000010' seq:9095499, type:1 .. '0000000001312CAF' seq:9291010, type:1](0)
+ 113:28574943['0000000000000063' seq:8982229, type:1 .. '0000000001312CEE' seq:9000121, type:1](0)
+ 110:28565223['000000000000007F' seq:8814640, type:1 .. '0000000001312CD7' seq:8770894, type:1](0)
+ 107:28573133['0000000000000056' seq:8469501, type:1 .. '0000000001312CE4' seq:8434101, type:1](0)
+ 104:28566785['0000000000000016' seq:8136804, type:1 .. '0000000001312CFE' seq:8235544, type:1](0)
+ 100:28569249['0000000000000057' seq:8092266, type:1 .. '0000000001312CD5' seq:7890602, type:1](0)
+ 97:28575061['000000000000000C' seq:7844464, type:1 .. '0000000001312C69' seq:7835711, type:1](0)
+ 94:28570355['000000000000000E' seq:7618231, type:1 .. '0000000001312CA4' seq:7562020, type:1](0)
+ 92:114078552['0000000000000048' seq:6862700, type:1 .. '0000000001312CF6' seq:6753040, type:1](0)
+--- level 1 --- version# 56 ---
+ 81:68774667['0000000000349D16' seq:6078417, type:1 .. '0000000000692B65' seq:6308925, type:1](0)
+ 85:68774232['00000000008D96DF' seq:0, type:1 .. '0000000000D2256D' seq:5566712, type:1](0)
+ 88:68772858['0000000000D2257E' seq:6138915, type:1 .. '0000000000FED3A1' seq:5122227, type:1](0)
+--- level 2 --- version# 56 ---
+ 98:68773352['0000000000000000' seq:0, type:1 .. '00000000001C584F' seq:0, type:1](0)
+ 101:68761903['00000000001C5851' seq:0, type:1 .. '00000000003D6565' seq:0, type:1](0)
+ 102:68774425['00000000003D6568' seq:0, type:1 .. '0000000000714B70' seq:0, type:1](0)
+ 105:68769159['0000000000714B73' seq:0, type:1 .. '00000000008D96DD' seq:0, type:1](0)
+ 61:68775701['00000000009AFFFF' seq:0, type:1 .. '0000000000C1C61C' seq:0, type:1](0)
+ 64:68775730['0000000000C1C61D' seq:4516600, type:1 .. '0000000000E8887A' seq:3131769, type:1](0)
+ 91:68773398['0000000000FED3A3' seq:0, type:1 .. '00000000011B24EF' seq:0, type:1](0)
+ 95:53431367['00000000011B24F2' seq:0, type:1 .. '0000000001312CFC' seq:6137570, type:1](0)
+--- level 3 --- version# 56 ---
+--- level 4 --- version# 56 ---
+--- level 5 --- version# 56 ---
+--- level 6 --- version# 56 ---
 
